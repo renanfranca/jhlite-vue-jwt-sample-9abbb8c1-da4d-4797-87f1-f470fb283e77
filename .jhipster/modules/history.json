@@ -26,5 +26,14 @@
       "endOfLine" : "lf",
       "indentSize" : 2
     }
+  }, {
+    "module" : "vue-core",
+    "date" : "2024-09-25T11:55:06.956189478Z",
+    "properties" : {
+      "projectName" : "JHipster Sample Application",
+      "baseName" : "jhipsterSampleApplication",
+      "endOfLine" : "lf",
+      "indentSize" : 2
+    }
   } ]
 }
