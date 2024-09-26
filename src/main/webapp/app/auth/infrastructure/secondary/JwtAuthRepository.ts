@@ -8,10 +8,6 @@ export class JwtAuthRepository implements AuthRepository {
     return this.axiosHttp.post('/api/auth/login', { username, password })
       .then(response => {
         localStorage.setItem('jwt-token', response.data.token);
-      })
-      .catch(error => {
-        console.error('Login failed:', error);
-        throw error;
       });
   }
 
@@ -24,16 +20,10 @@ export class JwtAuthRepository implements AuthRepository {
 
   getCurrentUser(): Promise<any> {
     return this.axiosHttp.get('/api/auth/user')
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Failed to get current user:', error);
-        throw error;
-      });
+      .then(response => response.data);
   }
 
   isAuthenticated(): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      resolve(!!localStorage.getItem('jwt-token'));
-    });
+    return Promise.resolve(!!localStorage.getItem('jwt-token'));
   }
 }
