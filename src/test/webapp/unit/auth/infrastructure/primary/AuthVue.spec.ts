@@ -8,8 +8,8 @@ import sinon from 'sinon';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AuthVue', () => {
-  let wrapper;
-  let mockAuthRepository;
+  let wrapper: VueWrapper;
+  let authRepository: AuthRepositoryStub;
 
   interface AuthRepositoryStub {
     login: SinonStub;
@@ -30,12 +30,20 @@ describe('AuthVue', () => {
     return mount(AuthVue);
   };
 
-  const componentVm = (wrapper: VueWrapper) => wrapper.findComponent(AuthVue).vm;
+  beforeEach(() => {
+    authRepository = stubAuthRepository();
+  });
+
+  const setAuthenticatedState = (authenticated: boolean, username: string = 'testuser') => {
+    authRepository.isAuthenticated.resolves(authenticated);
+    if (authenticated) {
+      authRepository.getCurrentUser.resolves({ username });
+    }
+  };
 
   it('should render login form when not authenticated', async () => {
-    const mockAuthRepository = stubAuthRepository();
-    mockAuthRepository.isAuthenticated.resolves(false);
-    const wrapper = wrap(mockAuthRepository);
+    setAuthenticatedState(false);
+    wrapper = wrap(authRepository);
     await flushPromises();
 
     expect(wrapper.find('form').exists()).toBe(true);
@@ -45,9 +53,9 @@ describe('AuthVue', () => {
   });
 
   it('should render welcome message and logout button when authenticated', async () => {
-    mockAuthRepository.isAuthenticated.mockResolvedValue(true);
-    mockAuthRepository.getCurrentUser.mockResolvedValue({ username: 'testuser' });
-    await wrapper.vm.$nextTick();
+    setAuthenticatedState(true);
+    wrapper = wrap(authRepository);
+    await flushPromises();
 
     expect(wrapper.find('form').exists()).toBe(false);
     expect(wrapper.find('p').text()).toBe('Welcome, testuser');
@@ -55,23 +63,47 @@ describe('AuthVue', () => {
   });
 
   it('should call login method when form is submitted', async () => {
-    mockAuthRepository.isAuthenticated.mockResolvedValue(false);
-    await wrapper.vm.$nextTick();
+    setAuthenticatedState(false);
+    wrapper = wrap(authRepository);
+    await flushPromises();
 
     await wrapper.find('input[type="text"]').setValue('testuser');
     await wrapper.find('input[type="password"]').setValue('password');
     await wrapper.find('form').trigger('submit');
 
-    expect(mockAuthRepository.login).toHaveBeenCalledWith('testuser', 'password');
+    expect(authRepository.login.calledWith('testuser', 'password')).toBe(true);
+    
+    // Simulate successful login
+    setAuthenticatedState(true);
+    await flushPromises();
+
+    expect(wrapper.find('p').text()).toBe('Welcome, testuser');
+    expect(wrapper.find('button').text()).toBe('Logout');
   });
 
   it('should call logout method when logout button is clicked', async () => {
-    mockAuthRepository.isAuthenticated.mockResolvedValue(true);
-    mockAuthRepository.getCurrentUser.mockResolvedValue({ username: 'testuser' });
-    await wrapper.vm.$nextTick();
+    setAuthenticatedState(true);
+    wrapper = wrap(authRepository);
+    await flushPromises();
 
     await wrapper.find('button').trigger('click');
 
-    expect(mockAuthRepository.logout).toHaveBeenCalled();
+    expect(authRepository.logout.called).toBe(true);
+    
+    // Simulate successful logout
+    setAuthenticatedState(false);
+    await flushPromises();
+
+    expect(wrapper.find('form').exists()).toBe(true);
+  });
+
+  it('should check authentication status on component mount', async () => {
+    setAuthenticatedState(true);
+    wrapper = wrap(authRepository);
+    await flushPromises();
+
+    expect(authRepository.isAuthenticated.called).toBe(true);
+    expect(authRepository.getCurrentUser.called).toBe(true);
+    expect(wrapper.find('p').text()).toBe('Welcome, testuser');
   });
 });
