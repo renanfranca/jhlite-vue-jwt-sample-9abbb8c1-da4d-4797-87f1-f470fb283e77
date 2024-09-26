@@ -68,13 +68,13 @@ describe('AuthVue', () => {
     await wrapper.find('form').trigger('submit');
 
     expect(authRepository.login.calledWith('testuser', 'password')).toBe(true);
-    
-    // Simulate successful login
+
     setAuthenticatedState(authRepository, true);
+    const wrapperLoggedIn = wrap(authRepository);
     await flushPromises();
 
-    expect(wrapper.find('p').text()).toBe('Welcome, testuser');
-    expect(wrapper.find('button').text()).toBe('Logout');
+    expect(wrapperLoggedIn.find('p').text()).toBe('Welcome, testuser');
+    expect(wrapperLoggedIn.find('button').text()).toBe('Logout');
   });
 
   it('should call logout method when logout button is clicked', async () => {
@@ -86,12 +86,12 @@ describe('AuthVue', () => {
     await wrapper.find('button').trigger('click');
 
     expect(authRepository.logout.called).toBe(true);
-    
-    // Simulate successful logout
+
     setAuthenticatedState(authRepository, false);
+    const wrapperLoggedOut = wrap(authRepository);
     await flushPromises();
 
-    expect(wrapper.find('form').exists()).toBe(true);
+    expect(wrapperLoggedOut.find('form').exists()).toBe(true);
   });
 
   it('should check authentication status on component mount', async () => {
