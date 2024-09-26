@@ -23,7 +23,7 @@ export class JwtAuthRepository implements AuthRepository {
       .then(response => response.data);
   }
 
-  isAuthenticated(): Promise<boolean> {
-    return Promise.resolve(!!localStorage.getItem('jwt-token'));
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('jwt-token');
   }
 }
