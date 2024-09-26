@@ -49,7 +49,6 @@ export default defineComponent({
         })
         .catch(error => {
           console.error('Login error:', error);
-          // Handle login error (e.g., show error message to user)
         });
     };
 
