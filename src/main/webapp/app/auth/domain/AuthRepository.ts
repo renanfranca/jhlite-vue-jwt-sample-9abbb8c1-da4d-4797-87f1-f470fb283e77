@@ -1,5 +1,5 @@
-import { LoginCredentials } from './LoginCredentials';
-import { LoginResponse } from './LoginResponse';
+import type { LoginCredentials } from './LoginCredentials';
+import type { LoginResponse } from './LoginResponse';
 
 export interface AuthRepository {
   login(credentials: LoginCredentials): Promise<LoginResponse>;

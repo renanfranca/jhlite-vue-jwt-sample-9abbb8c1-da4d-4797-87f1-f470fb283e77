@@ -1,14 +1,21 @@
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
+import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
+import type { LoginResponse } from '@/auth/domain/LoginResponse';
+import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
+import { toRestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
 import type { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp';
 
 export class JwtAuthRepository implements AuthRepository {
   constructor(private readonly axiosHttp: AxiosHttp) {}
 
-  login(username: string, password: string): Promise<void> {
-    return this.axiosHttp.post('/api/auth/login', { username, password }).then(response => {
-      //TODO: makes the response strong typed
-      localStorage.setItem('jwt-token', response.data.token);
-    });
+  login(credentials: LoginCredentials): Promise<LoginResponse> {
+    return this.axiosHttp
+      .post<LoginResponse, RestLoginCredentials>('/api/auth/login', toRestLoginCredentials(credentials))
+      .then(response => {
+        const loginResponse = response.data;
+        localStorage.setItem('jwt-token', loginResponse.token);
+        return loginResponse;
+      });
   }
 
   logout(): void {
