@@ -28,7 +28,7 @@ describe('AuthVue', () => {
   };
 
   const setAuthenticatedState = (authRepository: AuthRepositoryStub, authenticated: boolean, username: string = 'testuser') => {
-    authRepository.isAuthenticated.resolves(authenticated);
+    authRepository.isAuthenticated.returns(authenticated);
     if (authenticated) {
       authRepository.getCurrentUser.resolves({ username });
     }
@@ -103,5 +103,16 @@ describe('AuthVue', () => {
     expect(authRepository.isAuthenticated.called).toBe(true);
     expect(authRepository.getCurrentUser.called).toBe(true);
     expect(wrapper.find('p').text()).toBe('Welcome, testuser');
+  });
+
+  it('should not call getCurrentUser when not authenticated', async () => {
+    const authRepository = stubAuthRepository();
+    setAuthenticatedState(authRepository, false);
+    const wrapper = wrap(authRepository);
+    await flushPromises();
+
+    expect(authRepository.isAuthenticated.called).toBe(true);
+    expect(authRepository.getCurrentUser.called).toBe(false);
+    expect(wrapper.find('form').exists()).toBe(true);
   });
 });
