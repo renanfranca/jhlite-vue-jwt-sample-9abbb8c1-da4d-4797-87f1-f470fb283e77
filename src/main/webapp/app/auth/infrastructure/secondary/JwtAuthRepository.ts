@@ -6,6 +6,7 @@ export class JwtAuthRepository implements AuthRepository {
 
   login(username: string, password: string): Promise<void> {
     return this.axiosHttp.post('/api/auth/login', { username, password }).then(response => {
+      //TODO: makes the response strong typed
       localStorage.setItem('jwt-token', response.data.token);
     });
   }
@@ -15,6 +16,7 @@ export class JwtAuthRepository implements AuthRepository {
   }
 
   getCurrentUser(): Promise<any> {
+    //TODO: makes the response strong typed
     return this.axiosHttp.get('/api/auth/user').then(response => response.data);
   }
 
