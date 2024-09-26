@@ -23,7 +23,7 @@ export class JwtAuthRepository implements AuthRepository {
   }
 
   getCurrentUser(): Promise<any> {
-    //TODO: makes the response strong typed
+    //TODO: makes the response strong typed. See the angular jwt and the backend to understand how the object will be returned
     return this.axiosHttp.get('/api/auth/user').then(response => response.data);
   }
 
