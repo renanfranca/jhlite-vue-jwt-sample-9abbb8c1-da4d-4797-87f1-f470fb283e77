@@ -16,7 +16,7 @@ describe('AuthVue', () => {
   }
 
   const stubAuthRepository = (): AuthRepositoryStub => ({
-    login: sinon.stub(),
+    login: sinon.stub().resolves(),
     logout: sinon.stub(),
     getCurrentUser: sinon.stub(),
     isAuthenticated: sinon.stub(),
@@ -68,6 +68,9 @@ describe('AuthVue', () => {
     await wrapper.find('form').trigger('submit');
 
     expect(authRepository.login.calledWith('testuser', 'password')).toBe(true);
+
+    // Wait for the login promise to resolve
+    await flushPromises();
 
     setAuthenticatedState(authRepository, true);
     const wrapperLoggedIn = wrap(authRepository);
