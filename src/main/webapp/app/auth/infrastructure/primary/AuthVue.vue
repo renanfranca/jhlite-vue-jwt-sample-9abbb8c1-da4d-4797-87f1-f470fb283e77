@@ -27,24 +27,42 @@ export default defineComponent({
     const username = ref('');
     const password = ref('');
 
-    const checkAuth = async () => {
-      isAuthenticated.value = await authRepository.isAuthenticated();
-      if (isAuthenticated.value) {
-        currentUser.value = await authRepository.getCurrentUser();
-      }
+    const checkAuth = () => {
+      return authRepository.isAuthenticated()
+        .then(auth => {
+          isAuthenticated.value = auth;
+          if (isAuthenticated.value) {
+            return authRepository.getCurrentUser();
+          }
+          return null;
+        })
+        .then(user => {
+          if (user) {
+            currentUser.value = user;
+          }
+        })
+        .catch(error => {
+          console.error('Error checking authentication:', error);
+        });
     };
 
-    const login = async () => {
-      await authRepository.login(username.value, password.value);
-      await checkAuth();
+    const login = () => {
+      authRepository.login(username.value, password.value)
+        .then(() => checkAuth())
+        .catch(error => {
+          console.error('Login error:', error);
+          // Handle login error (e.g., show error message to user)
+        });
     };
 
-    const logout = async () => {
-      await authRepository.logout();
-      await checkAuth();
+    const logout = () => {
+      authRepository.logout();
+      checkAuth();
     };
 
-    onMounted(checkAuth);
+    onMounted(() => {
+      checkAuth();
+    });
 
     return {
       isAuthenticated,
