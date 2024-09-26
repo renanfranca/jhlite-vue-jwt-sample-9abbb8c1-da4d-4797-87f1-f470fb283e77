@@ -1,8 +1,9 @@
+import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
+import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { JwtAuthRepository } from '@/auth/infrastructure/secondary/JwtAuthRepository';
 import { describe, expect, it } from 'vitest';
 import { stubAxiosHttp } from '../../../shared/http/infrastructure/secondary/AxiosHttpStub';
-import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
-import type { LoginResponse } from '@/auth/domain/LoginResponse';
+import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
 
 describe('JwtAuthRepository', () => {
   describe('login', () => {
@@ -16,16 +17,17 @@ describe('JwtAuthRepository', () => {
       const response = await jwtAuthRepository.login(credentials);
 
       const [uri, payload] = mockAxiosHttp.post.getCall(0).args;
+      const expectedPayload: RestLoginCredentials = { username: 'test-user', password: 'password' };
       expect(uri).toBe('/api/auth/login');
-      expect(payload).toEqual(credentials);
+      expect(payload).toEqual(expectedPayload);
       expect(localStorage.getItem('jwt-token')).toBe('fake-jwt-token');
       expect(response).toEqual(mockResponse);
     });
 
-    it('should enforce type safety for login credentials and response', () => {
-      const jwtAuthRepository = new JwtAuthRepository(stubAxiosHttp());
-
-      // This should compile without errors
+    it('should enforce type safety for login credentials and response', async () => {
+      const mockAxiosHttp = stubAxiosHttp();
+      mockAxiosHttp.post.resolves({ data: { token: 'fake-token' } });
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
       const credentials: LoginCredentials = { username: 'user', password: 'pass' };
       const loginPromise: Promise<LoginResponse> = jwtAuthRepository.login(credentials);
 
@@ -36,6 +38,11 @@ describe('JwtAuthRepository', () => {
       jwtAuthRepository.login({ username: 'user', password: 'pass', extraField: 'value' });
 
       expect(loginPromise).toBeInstanceOf(Promise);
+
+      // Add this to ensure the Promise resolves
+      return loginPromise.then(response => {
+        expect(response).toEqual({ token: 'fake-token' });
+      });
     });
   });
 
@@ -45,7 +52,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
 
-      await jwtAuthRepository.logout();
+      jwtAuthRepository.logout();
 
       expect(localStorage.getItem('jwt-token')).toBeNull();
     });
@@ -73,7 +80,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
 
-      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = jwtAuthRepository.isAuthenticated();
 
       expect(isAuthenticated).toBe(true);
     });
@@ -83,7 +90,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
 
-      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = jwtAuthRepository.isAuthenticated();
 
       expect(isAuthenticated).toBe(false);
     });
