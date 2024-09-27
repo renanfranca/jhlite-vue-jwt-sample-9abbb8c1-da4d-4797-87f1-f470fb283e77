@@ -6,6 +6,7 @@ import { mount } from '@vue/test-utils';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
+import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 
 describe('AuthVue', () => {
   interface AuthRepositoryStub {
@@ -27,10 +28,19 @@ describe('AuthVue', () => {
     return mount(AuthVue);
   };
 
-  const setAuthenticatedState = (authRepository: AuthRepositoryStub, authenticated: boolean, username: string = 'testuser') => {
+  const setAuthenticatedState = (authRepository: AuthRepositoryStub, authenticated: boolean) => {
     authRepository.isAuthenticated.returns(authenticated);
     if (authenticated) {
-      authRepository.getCurrentUser.resolves({ username });
+      const mockUser: AuthenticatedUser = {
+        activated: true,
+        authorities: ['ROLE_USER'],
+        email: 'test-user@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        langKey: 'en',
+        login: 'test.user',
+      };
+      authRepository.getCurrentUser.resolves(mockUser);
     }
   };
 
@@ -55,7 +65,7 @@ describe('AuthVue', () => {
     await flushPromises();
 
     expect(wrapper.find('form').exists()).toBe(false);
-    expect(wrapper.find('p').text()).toBe('Welcome, testuser');
+    expect(wrapper.find('p').text()).toBe('Welcome, test.user');
     expect(wrapper.find('button').text()).toBe('Logout');
   });
 

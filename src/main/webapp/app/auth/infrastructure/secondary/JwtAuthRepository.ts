@@ -7,7 +7,10 @@ import { toRestLoginCredentials } from '@/auth/infrastructure/secondary/RestLogi
 import type { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp';
 
 export class JwtAuthRepository implements AuthRepository {
-  constructor(private readonly axiosHttp: AxiosHttp, private readonly localStorage: Storage) {}
+  constructor(
+    private readonly axiosHttp: AxiosHttp,
+    private readonly localStorage: Storage,
+  ) {}
 
   login(credentials: LoginCredentials): Promise<LoginResponse> {
     return this.axiosHttp

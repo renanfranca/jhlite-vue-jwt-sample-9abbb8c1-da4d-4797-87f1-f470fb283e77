@@ -47,7 +47,7 @@ describe('JwtAuthRepository', () => {
         firstName: 'Test',
         lastName: 'User',
         langKey: 'en',
-        login: 'test-user',
+        login: 'test.user',
       };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.get.resolves({ data: mockUser });

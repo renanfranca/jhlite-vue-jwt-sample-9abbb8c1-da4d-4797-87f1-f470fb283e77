@@ -7,7 +7,7 @@
       <button type="submit" class="auth-btn">Login</button>
     </form>
     <div v-else class="welcome">
-      <p>Welcome, {{ currentUser?.username }}</p>
+      <p>Welcome, {{ currentUser?.login }}</p>
       <button @click="logout" class="auth-btn logout-btn">Logout</button>
     </div>
   </div>
@@ -51,7 +51,7 @@ export default defineComponent({
         username: username.value,
         password: password.value
       };
-      
+
       authRepository.login(credentials)
         .then((response: LoginResponse) => {
           // You might want to do something with the response here
