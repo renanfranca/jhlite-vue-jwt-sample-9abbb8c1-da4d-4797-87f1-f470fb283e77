@@ -1,39 +1,57 @@
 {
-  "actions" : [ {
-    "module" : "init",
-    "date" : "2024-09-25T11:55:06.369044610Z",
-    "properties" : {
-      "projectName" : "JHipster Sample Application",
-      "baseName" : "jhipsterSampleApplication",
-      "endOfLine" : "lf",
-      "indentSize" : 2
+  "actions": [
+    {
+      "module": "init",
+      "date": "2024-09-25T11:55:06.369044610Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2
+      }
+    },
+    {
+      "module": "prettier",
+      "date": "2024-09-25T11:55:06.749420098Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2
+      }
+    },
+    {
+      "module": "typescript",
+      "date": "2024-09-25T11:55:06.842717660Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2
+      }
+    },
+    {
+      "module": "vue-core",
+      "date": "2024-09-25T11:55:06.956189478Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2
+      }
+    },
+    {
+      "module": "maven-java",
+      "date": "2024-09-27T12:29:04.662593811Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2,
+        "packageName": "com.mycompany.myapp",
+        "serverPort": 8080,
+        "springConfigurationFormat": "yaml"
+      }
     }
-  }, {
-    "module" : "prettier",
-    "date" : "2024-09-25T11:55:06.749420098Z",
-    "properties" : {
-      "projectName" : "JHipster Sample Application",
-      "baseName" : "jhipsterSampleApplication",
-      "endOfLine" : "lf",
-      "indentSize" : 2
-    }
-  }, {
-    "module" : "typescript",
-    "date" : "2024-09-25T11:55:06.842717660Z",
-    "properties" : {
-      "projectName" : "JHipster Sample Application",
-      "baseName" : "jhipsterSampleApplication",
-      "endOfLine" : "lf",
-      "indentSize" : 2
-    }
-  }, {
-    "module" : "vue-core",
-    "date" : "2024-09-25T11:55:06.956189478Z",
-    "properties" : {
-      "projectName" : "JHipster Sample Application",
-      "baseName" : "jhipsterSampleApplication",
-      "endOfLine" : "lf",
-      "indentSize" : 2
-    }
-  } ]
+  ]
 }
