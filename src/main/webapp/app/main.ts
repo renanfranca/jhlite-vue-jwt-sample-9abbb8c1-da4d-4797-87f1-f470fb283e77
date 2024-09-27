@@ -8,7 +8,7 @@ import router from './router';
 
 const app = createApp(AppVue);
 app.use(router);
-const axiosHttp = new AxiosHttp(axios.create({ baseURL: '' }));
+const axiosHttp = new AxiosHttp(axios.create({ baseURL: 'http://localhost:8080/' }));
 provideForAuth(axiosHttp);
 // jhipster-needle-main-ts-provider
 app.mount('#app');
