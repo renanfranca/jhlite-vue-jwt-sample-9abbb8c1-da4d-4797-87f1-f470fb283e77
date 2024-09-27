@@ -17,12 +17,12 @@ export class JwtAuthRepository implements AuthRepository {
       .post<LoginResponse, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
       .then(response => {
         const loginResponse = response.data;
-        localStorage.setItem('jwt-token', loginResponse.token);
+        this.localStorage.setItem('jwt-token', loginResponse.token);
       });
   }
 
   logout(): void {
-    localStorage.removeItem('jwt-token');
+    this.localStorage.removeItem('jwt-token');
   }
 
   getCurrentUser(): Promise<AuthenticatedUser> {
@@ -30,6 +30,6 @@ export class JwtAuthRepository implements AuthRepository {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('jwt-token');
+    return !!this.localStorage.getItem('jwt-token');
   }
 }
