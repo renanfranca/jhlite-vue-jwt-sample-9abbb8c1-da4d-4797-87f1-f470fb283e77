@@ -7,5 +7,5 @@ import type { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp
 export const AUTH_REPOSITORY = key<AuthRepository>('AuthRepository');
 
 export const provideForAuth = (axiosHttp: AxiosHttp): void => {
-  provide(AUTH_REPOSITORY, new JwtAuthRepository(axiosHttp));
+  provide(AUTH_REPOSITORY, new JwtAuthRepository(axiosHttp, localStorage));
 };
