@@ -10,7 +10,7 @@ export class JwtAuthRepository implements AuthRepository {
 
   login(credentials: LoginCredentials): Promise<LoginResponse> {
     return this.axiosHttp
-      .post<LoginResponse, RestLoginCredentials>('/api/auth/login', toRestLoginCredentials(credentials))
+      .post<LoginResponse, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
       .then(response => {
         const loginResponse = response.data;
         localStorage.setItem('jwt-token', loginResponse.token);
@@ -24,7 +24,7 @@ export class JwtAuthRepository implements AuthRepository {
 
   getCurrentUser(): Promise<any> {
     //TODO: makes the response strong typed. See the angular jwt and the backend to understand how the object will be returned
-    return this.axiosHttp.get('/api/auth/user').then(response => response.data);
+    return this.axiosHttp.get('api/account').then(response => response.data);
   }
 
   isAuthenticated(): boolean {
