@@ -1,3 +1,4 @@
+import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
 import type { LoginResponse } from '@/auth/domain/LoginResponse';
@@ -22,9 +23,8 @@ export class JwtAuthRepository implements AuthRepository {
     localStorage.removeItem('jwt-token');
   }
 
-  getCurrentUser(): Promise<any> {
-    //TODO: makes the response strong typed. See the angular jwt and the backend to understand how the object will be returned
-    return this.axiosHttp.get('api/account').then(response => response.data);
+  getCurrentUser(): Promise<AuthenticatedUser> {
+    return this.axiosHttp.get<AuthenticatedUser>('api/account').then(response => response.data);
   }
 
   isAuthenticated(): boolean {
