@@ -12,7 +12,7 @@ describe('JwtAuthRepository', () => {
       const mockResponse: LoginResponse = { token: 'fake-jwt-token' };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.post.resolves({ data: mockResponse });
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       const credentials: LoginCredentials = { username: 'test-user', password: 'password' };
 
       const response = await jwtAuthRepository.login(credentials);
@@ -30,7 +30,7 @@ describe('JwtAuthRepository', () => {
     it('should remove the token from localStorage', async () => {
       localStorage.setItem('jwt-token', 'fake-jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
       jwtAuthRepository.logout();
 
@@ -51,7 +51,7 @@ describe('JwtAuthRepository', () => {
       };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.get.resolves({ data: mockUser });
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
       const user = await jwtAuthRepository.getCurrentUser();
 
@@ -66,7 +66,7 @@ describe('JwtAuthRepository', () => {
     it('should return true if a token exists in localStorage', async () => {
       localStorage.setItem('jwt-token', 'fake-jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
       const isAuthenticated = jwtAuthRepository.isAuthenticated();
 
@@ -76,7 +76,7 @@ describe('JwtAuthRepository', () => {
     it('should return false if no token exists in localStorage', async () => {
       localStorage.removeItem('jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
       const isAuthenticated = jwtAuthRepository.isAuthenticated();
 
