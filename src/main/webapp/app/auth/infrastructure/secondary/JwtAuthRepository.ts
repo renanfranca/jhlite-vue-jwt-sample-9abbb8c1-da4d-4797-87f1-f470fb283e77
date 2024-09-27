@@ -12,13 +12,12 @@ export class JwtAuthRepository implements AuthRepository {
     private readonly localStorage: Storage,
   ) {}
 
-  login(credentials: LoginCredentials): Promise<LoginResponse> {
+  login(credentials: LoginCredentials): Promise<void> {
     return this.axiosHttp
       .post<LoginResponse, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
       .then(response => {
         const loginResponse = response.data;
         localStorage.setItem('jwt-token', loginResponse.token);
-        return loginResponse;
       });
   }
 

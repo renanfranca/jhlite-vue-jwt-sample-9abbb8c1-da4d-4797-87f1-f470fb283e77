@@ -15,14 +15,13 @@ describe('JwtAuthRepository', () => {
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       const credentials: LoginCredentials = { username: 'test-user', password: 'password' };
 
-      const response = await jwtAuthRepository.login(credentials);
+      await jwtAuthRepository.login(credentials);
 
       const [uri, payload] = mockAxiosHttp.post.getCall(0).args;
       const expectedPayload: RestLoginCredentials = { username: 'test-user', password: 'password' };
       expect(uri).toBe('api/authenticate');
       expect(payload).toEqual(expectedPayload);
       expect(localStorage.getItem('jwt-token')).toBe('fake-jwt-token');
-      expect(response).toEqual(mockResponse);
     });
   });
 

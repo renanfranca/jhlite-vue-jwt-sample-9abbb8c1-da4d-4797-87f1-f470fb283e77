@@ -1,8 +1,7 @@
 import type { LoginCredentials } from './LoginCredentials';
-import type { LoginResponse } from './LoginResponse';
 
 export interface AuthRepository {
-  login(credentials: LoginCredentials): Promise<LoginResponse>;
+  login(credentials: LoginCredentials): Promise<void>;
   logout(): void;
   getCurrentUser(): Promise<any>;
   isAuthenticated(): boolean;
