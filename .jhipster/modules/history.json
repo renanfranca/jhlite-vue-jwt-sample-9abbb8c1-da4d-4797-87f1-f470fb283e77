@@ -195,6 +195,19 @@
         "serverPort": 8080,
         "springConfigurationFormat": "yaml"
       }
+    },
+    {
+      "module": "spring-boot-jwt-basic-auth",
+      "date": "2024-09-27T14:36:55.930385323Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2,
+        "packageName": "com.mycompany.myapp",
+        "serverPort": 8080,
+        "springConfigurationFormat": "yaml"
+      }
     }
   ]
 }
