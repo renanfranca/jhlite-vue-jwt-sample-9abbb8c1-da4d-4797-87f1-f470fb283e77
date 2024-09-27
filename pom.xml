@@ -39,7 +39,21 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>${reflections.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -59,6 +73,7 @@
     <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
     <npm.version>10.8.3</npm.version>
     <node.version>v20.17.0</node.version>
+    <reflections.version>0.10.2</reflections.version>
   </properties>
 
   <build>

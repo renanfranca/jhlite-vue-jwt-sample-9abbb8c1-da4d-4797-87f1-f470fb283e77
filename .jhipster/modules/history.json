@@ -130,6 +130,19 @@
         "serverPort": 8080,
         "springConfigurationFormat": "yaml"
       }
+    },
+    {
+      "module": "spring-boot-tomcat",
+      "date": "2024-09-27T12:29:18.674752432Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2,
+        "packageName": "com.mycompany.myapp",
+        "serverPort": 8080,
+        "springConfigurationFormat": "yaml"
+      }
     }
   ]
 }
