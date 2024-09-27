@@ -1,4 +1,4 @@
-import type { Account } from '@/auth/domain/Account';
+import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
 import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { JwtAuthRepository } from '@/auth/infrastructure/secondary/JwtAuthRepository';
@@ -14,7 +14,7 @@ describe('JwtAuthRepository', () => {
       mockAxiosHttp.post.resolves({ data: mockResponse });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
       const credentials: LoginCredentials = { username: 'test-user', password: 'password' };
-      
+
       const response = await jwtAuthRepository.login(credentials);
 
       const [uri, payload] = mockAxiosHttp.post.getCall(0).args;
@@ -51,7 +51,7 @@ describe('JwtAuthRepository', () => {
 
   describe('getCurrentUser', () => {
     it('should call the user endpoint and return the user data', async () => {
-      const mockUser: Account = {
+      const mockUser: AuthenticatedUser = {
         activated: true,
         authorities: ['ROLE_USER'],
         email: 'test-user@example.com',
