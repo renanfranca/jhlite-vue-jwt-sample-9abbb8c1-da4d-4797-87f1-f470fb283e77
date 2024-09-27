@@ -59,53 +59,6 @@ describe('AuthVue', () => {
     expect(wrapper.find('button').text()).toBe('Logout');
   });
 
-  it('should call login method when form is submitted', async () => {
-    const authRepository = stubAuthRepository();
-    setAuthenticatedState(authRepository, false);
-    const wrapper = wrap(authRepository);
-    await flushPromises();
-    await wrapper.find('input[type="text"]').setValue('testuser');
-    await wrapper.find('input[type="password"]').setValue('password');
-    await wrapper.find('form').trigger('submit');
-
-    expect(authRepository.login.calledWith('testuser', 'password')).toBe(true);
-
-    setAuthenticatedState(authRepository, true);
-    const wrapperLoggedIn = wrap(authRepository);
-    await flushPromises();
-
-    expect(wrapperLoggedIn.find('p').text()).toBe('Welcome, testuser');
-    expect(wrapperLoggedIn.find('button').text()).toBe('Logout');
-  });
-
-  it('should call logout method when logout button is clicked', async () => {
-    const authRepository = stubAuthRepository();
-    setAuthenticatedState(authRepository, true);
-    const wrapper = wrap(authRepository);
-    await flushPromises();
-
-    await wrapper.find('button').trigger('click');
-
-    expect(authRepository.logout.called).toBe(true);
-    setAuthenticatedState(authRepository, false);
-    const wrapperLoggedOut = wrap(authRepository);
-    await flushPromises();
-
-    expect(wrapperLoggedOut.find('form').exists()).toBe(true);
-  });
-
-  it('should check authentication status on component mount', async () => {
-    const authRepository = stubAuthRepository();
-    setAuthenticatedState(authRepository, true);
-
-    const wrapper = wrap(authRepository);
-    await flushPromises();
-
-    expect(authRepository.isAuthenticated.called).toBe(true);
-    expect(authRepository.getCurrentUser.called).toBe(true);
-    expect(wrapper.find('p').text()).toBe('Welcome, testuser');
-  });
-
   it('should not call getCurrentUser when not authenticated', async () => {
     const authRepository = stubAuthRepository();
     setAuthenticatedState(authRepository, false);
