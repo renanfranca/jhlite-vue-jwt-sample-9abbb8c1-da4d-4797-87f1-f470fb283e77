@@ -1,3 +1,6 @@
+import { provideForAuth } from '@/auth/application/AuthProvider';
+import { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp';
+import axios from 'axios';
 import { createApp } from 'vue';
 import AppVue from './AppVue.vue';
 import router from './router';
@@ -5,7 +8,7 @@ import router from './router';
 
 const app = createApp(AppVue);
 app.use(router);
-//TODO: use the provideForAuth function
-//TODO: localStorage should be provided too
+const axiosHttp = new AxiosHttp(axios.create({ baseURL: '' }));
+provideForAuth(axiosHttp);
 // jhipster-needle-main-ts-provider
 app.mount('#app');
