@@ -1,22 +1,23 @@
 <template>
-  <div>
-    <form v-if="!isAuthenticated" @submit.prevent="login">
-      <input type="text" v-model="username" placeholder="Username" required>
-      <input type="password" v-model="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+  <div class="auth-container">
+    <form class="auth-form" v-if="!isAuthenticated" @submit.prevent="login">
+      <h2 class="auth-title">Login</h2>
+      <input type="text" v-model="username" placeholder="Username" class="auth-input" required />
+      <input type="password" v-model="password" placeholder="Password" class="auth-input" required />
+      <button type="submit" class="auth-btn">Login</button>
     </form>
-    <div v-else>
+    <div v-else class="welcome">
       <p>Welcome, {{ currentUser?.username }}</p>
-      <button @click="logout">Logout</button>
+      <button @click="logout" class="auth-btn logout-btn">Logout</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { inject } from '@/injections';
 import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
+import { inject } from '@/injections';
+import { defineComponent, onMounted, ref } from 'vue';
 
 export default defineComponent({
   name: 'AuthVue',
@@ -30,7 +31,8 @@ export default defineComponent({
     const checkAuth = () => {
       isAuthenticated.value = authRepository.isAuthenticated();
       if (isAuthenticated.value) {
-        authRepository.getCurrentUser()
+        authRepository
+          .getCurrentUser()
           .then(user => {
             currentUser.value = user;
           })
@@ -43,7 +45,8 @@ export default defineComponent({
     };
 
     const login = () => {
-      authRepository.login(username.value, password.value)
+      authRepository
+        .login(username.value, password.value)
         .then(() => {
           checkAuth();
         })
@@ -72,3 +75,81 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f9;
+}
+
+.auth-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.auth-input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.auth-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.auth-btn {
+  display: inline-block;
+  background-color: #3b82f6;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.auth-btn:hover {
+  background-color: #2563eb;
+}
+
+.logout-btn {
+  background-color: #f87171;
+}
+
+.logout-btn:hover {
+  background-color: #ef4444;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+</style>
