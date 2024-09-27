@@ -182,6 +182,19 @@
         "serverPort": 8080,
         "springConfigurationFormat": "yaml"
       }
+    },
+    {
+      "module": "springdoc-jwt",
+      "date": "2024-09-27T14:36:54.319449211Z",
+      "properties": {
+        "projectName": "JHipster Sample Application",
+        "baseName": "jhipsterSampleApplication",
+        "endOfLine": "lf",
+        "indentSize": 2,
+        "packageName": "com.mycompany.myapp",
+        "serverPort": 8080,
+        "springConfigurationFormat": "yaml"
+      }
     }
   ]
 }
