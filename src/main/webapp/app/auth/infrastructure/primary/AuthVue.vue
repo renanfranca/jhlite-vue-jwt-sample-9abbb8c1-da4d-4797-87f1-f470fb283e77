@@ -90,16 +90,20 @@ export default defineComponent({
   align-items: center;
   height: 100vh;
   background-color: #f4f4f9;
+  padding: 20px;
 }
 
 .auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  text-align: center;
 }
 
 .auth-title {
@@ -109,7 +113,6 @@ export default defineComponent({
 }
 
 .auth-input {
-  display: block;
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
@@ -125,10 +128,9 @@ export default defineComponent({
 }
 
 .auth-btn {
-  display: inline-block;
   background-color: #3b82f6;
   color: #fff;
-  padding: 12px 20px;
+  padding: 12px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -153,6 +155,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
 }
 
 .welcome p {
