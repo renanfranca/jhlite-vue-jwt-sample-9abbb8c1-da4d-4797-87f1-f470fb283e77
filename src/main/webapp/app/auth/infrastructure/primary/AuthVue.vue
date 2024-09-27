@@ -16,6 +16,9 @@
 <script lang="ts">
 import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
+import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
+import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
+import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { inject } from '@/injections';
 import { defineComponent, onMounted, ref } from 'vue';
 
@@ -24,15 +27,14 @@ export default defineComponent({
   setup() {
     const authRepository = inject(AUTH_REPOSITORY) as AuthRepository;
     const isAuthenticated = ref(false);
-    const currentUser = ref(null);
+    const currentUser = ref<AuthenticatedUser | null>(null);
     const username = ref('');
     const password = ref('');
 
     const checkAuth = () => {
       isAuthenticated.value = authRepository.isAuthenticated();
       if (isAuthenticated.value) {
-        authRepository
-          .getCurrentUser()
+        authRepository.getCurrentUser()
           .then(user => {
             currentUser.value = user;
           })
@@ -45,9 +47,14 @@ export default defineComponent({
     };
 
     const login = () => {
-      authRepository
-        .login(username.value, password.value)
-        .then(() => {
+      const credentials: LoginCredentials = {
+        username: username.value,
+        password: password.value
+      };
+      
+      authRepository.login(credentials)
+        .then((response: LoginResponse) => {
+          // You might want to do something with the response here
           checkAuth();
         })
         .catch(error => {
