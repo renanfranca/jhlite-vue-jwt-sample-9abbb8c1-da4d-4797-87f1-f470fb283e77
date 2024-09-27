@@ -55,7 +55,6 @@ describe('JwtAuthRepository', () => {
 
       const user = await jwtAuthRepository.getCurrentUser();
 
-
       const [uri, payload] = mockAxiosHttp.get.getCall(0).args;
       expect(uri).toBe('api/account');
       expect(payload).toBeUndefined();
