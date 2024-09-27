@@ -10,3 +10,6 @@ spring:
     default-property-inclusion: non_absent
 server:
   port: 8080
+application:
+  security:
+    jwt-base64-secret: NTczOTI0OTA5YTliY2FjYWQ0OTAwNWQyYTI4ODBjY2ExZmM0MjRhMmI0ODIxMGU1OWU4ODg3ZTg0ZTljNjcyYw==

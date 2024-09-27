@@ -9,3 +9,6 @@ spring:
     banner-mode: 'off'
 server:
   port: 0
+application:
+  security:
+    jwt-base64-secret: YmE4ODdjM2RmMDZhMTE5YzM0NzliNTQwMmMwMGNiMDRlNjRmNjBlODc1NWM2Yjg5NjA3YmYxOTc2ZWY2ZDlmMA==
