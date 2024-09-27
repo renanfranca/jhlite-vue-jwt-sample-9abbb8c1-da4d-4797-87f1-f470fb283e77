@@ -53,8 +53,7 @@ export default defineComponent({
       };
 
       authRepository.login(credentials)
-        .then((response: LoginResponse) => {
-          // You might want to do something with the response here
+        .then(() => {
           checkAuth();
         })
         .catch(error => {
