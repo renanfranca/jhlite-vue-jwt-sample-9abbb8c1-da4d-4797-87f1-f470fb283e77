@@ -67,6 +67,16 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc-openapi-starter-webmvc.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+      <version>${springdoc-openapi-starter-webmvc.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
@@ -102,6 +112,7 @@
     <reflections.version>0.10.2</reflections.version>
     <json-web-token.version>0.12.6</json-web-token.version>
     <maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
+    <springdoc-openapi-starter-webmvc.version>2.6.0</springdoc-openapi-starter-webmvc.version>
   </properties>
 
   <build>
