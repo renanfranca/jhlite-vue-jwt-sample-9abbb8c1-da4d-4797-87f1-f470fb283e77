@@ -11,7 +11,7 @@ const STORAGE_KEY_JWT_TOKEN = 'jwtToken';
 describe('JwtAuthRepository', () => {
   describe('login', () => {
     it('should call the login endpoint with correct credentials and store the token', async () => {
-      const mockResponse: LoginResponse = { token: 'fake-jwt-token' };
+      const mockResponse: LoginResponse = { id_token: 'fake-jwt-token' };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.post.resolves({ data: mockResponse });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);

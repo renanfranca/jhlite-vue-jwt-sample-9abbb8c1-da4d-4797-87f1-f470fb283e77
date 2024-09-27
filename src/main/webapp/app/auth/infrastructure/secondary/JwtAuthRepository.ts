@@ -19,7 +19,7 @@ export class JwtAuthRepository implements AuthRepository {
       .post<LoginResponse, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
       .then(response => {
         const loginResponse = response.data;
-        this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, loginResponse.token);
+        this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, loginResponse.id_token);
       });
   }
 
