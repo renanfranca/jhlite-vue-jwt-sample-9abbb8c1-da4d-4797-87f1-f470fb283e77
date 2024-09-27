@@ -1,9 +1,10 @@
+import type { Account } from '@/auth/domain/Account';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
 import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { JwtAuthRepository } from '@/auth/infrastructure/secondary/JwtAuthRepository';
+import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
 import { describe, expect, it } from 'vitest';
 import { stubAxiosHttp } from '../../../shared/http/infrastructure/secondary/AxiosHttpStub';
-import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
 
 describe('JwtAuthRepository', () => {
   describe('login', () => {
@@ -60,15 +61,24 @@ describe('JwtAuthRepository', () => {
 
   describe('getCurrentUser', () => {
     it('should call the user endpoint and return the user data', async () => {
-      const mockUser = { id: 1, username: 'test-user' };
+      const mockUser: Account = {
+        activated: true,
+        authorities: ['ROLE_USER'],
+        email: 'test-user@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        langKey: 'en',
+        login: 'test-user',
+      };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.get.resolves({ data: mockUser });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
 
       const user = await jwtAuthRepository.getCurrentUser();
 
+
       const [uri, payload] = mockAxiosHttp.get.getCall(0).args;
-      expect(uri).toBe('/api/auth/user');
+      expect(uri).toBe('api/account');
       expect(payload).toBeUndefined();
       expect(user).toEqual(mockUser);
     });
