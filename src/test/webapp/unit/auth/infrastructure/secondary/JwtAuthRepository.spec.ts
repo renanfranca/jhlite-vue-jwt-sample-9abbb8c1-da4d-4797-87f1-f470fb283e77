@@ -6,6 +6,8 @@ import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestL
 import { describe, expect, it } from 'vitest';
 import { stubAxiosHttp } from '../../../shared/http/infrastructure/secondary/AxiosHttpStub';
 
+const STORAGE_KEY_JWT_TOKEN = 'jwtToken';
+
 describe('JwtAuthRepository', () => {
   describe('login', () => {
     it('should call the login endpoint with correct credentials and store the token', async () => {
@@ -21,19 +23,19 @@ describe('JwtAuthRepository', () => {
       const expectedPayload: RestLoginCredentials = { username: 'test-user', password: 'password' };
       expect(uri).toBe('api/authenticate');
       expect(payload).toEqual(expectedPayload);
-      expect(localStorage.getItem('jwt-token')).toBe('fake-jwt-token');
+      expect(localStorage.getItem(STORAGE_KEY_JWT_TOKEN)).toBe('fake-jwt-token');
     });
   });
 
   describe('logout', () => {
     it('should remove the token from localStorage', async () => {
-      localStorage.setItem('jwt-token', 'fake-jwt-token');
+      localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
       jwtAuthRepository.logout();
 
-      expect(localStorage.getItem('jwt-token')).toBeNull();
+      expect(localStorage.getItem(STORAGE_KEY_JWT_TOKEN)).toBeNull();
     });
   });
 
@@ -63,7 +65,7 @@ describe('JwtAuthRepository', () => {
 
   describe('isAuthenticated', () => {
     it('should return true if a token exists in localStorage', async () => {
-      localStorage.setItem('jwt-token', 'fake-jwt-token');
+      localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
@@ -73,7 +75,7 @@ describe('JwtAuthRepository', () => {
     });
 
     it('should return false if no token exists in localStorage', async () => {
-      localStorage.removeItem('jwt-token');
+      localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
@@ -87,7 +89,7 @@ describe('JwtAuthRepository', () => {
     it('should return the token if it exists in localStorage', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
-      localStorage.setItem('jwt-token', 'fake-jwt-token');
+      localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
 
       const token = jwtAuthRepository.getToken();
 
@@ -97,7 +99,7 @@ describe('JwtAuthRepository', () => {
     it('should return null if no token exists in localStorage', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
-      localStorage.removeItem('jwt-token');
+      localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
 
       const token = jwtAuthRepository.getToken();
 
