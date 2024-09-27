@@ -82,4 +82,26 @@ describe('JwtAuthRepository', () => {
       expect(isAuthenticated).toBe(false);
     });
   });
+
+  describe('getToken', () => {
+    it('should return the token if it exists in localStorage', () => {
+      const mockAxiosHttp = stubAxiosHttp();
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
+      localStorage.setItem('jwt-token', 'fake-jwt-token');
+
+      const token = jwtAuthRepository.getToken();
+
+      expect(token).toBe('fake-jwt-token');
+    });
+
+    it('should return null if no token exists in localStorage', () => {
+      const mockAxiosHttp = stubAxiosHttp();
+      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
+      localStorage.removeItem('jwt-token');
+
+      const token = jwtAuthRepository.getToken();
+
+      expect(token).toBeNull();
+    });
+  });
 });

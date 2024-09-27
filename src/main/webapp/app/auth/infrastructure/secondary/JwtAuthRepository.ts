@@ -32,4 +32,8 @@ export class JwtAuthRepository implements AuthRepository {
   isAuthenticated(): boolean {
     return !!this.localStorage.getItem('jwt-token');
   }
+
+  getToken(): string | null {
+    return this.localStorage.getItem('jwt-token');
+  }
 }
