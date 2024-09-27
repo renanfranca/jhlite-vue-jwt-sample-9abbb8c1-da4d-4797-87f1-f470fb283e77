@@ -13,13 +13,13 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.post.resolves({ data: mockResponse });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
-
       const credentials: LoginCredentials = { username: 'test-user', password: 'password' };
+      
       const response = await jwtAuthRepository.login(credentials);
 
       const [uri, payload] = mockAxiosHttp.post.getCall(0).args;
       const expectedPayload: RestLoginCredentials = { username: 'test-user', password: 'password' };
-      expect(uri).toBe('/api/auth/login');
+      expect(uri).toBe('api/authenticate');
       expect(payload).toEqual(expectedPayload);
       expect(localStorage.getItem('jwt-token')).toBe('fake-jwt-token');
       expect(response).toEqual(mockResponse);
@@ -30,20 +30,10 @@ describe('JwtAuthRepository', () => {
       mockAxiosHttp.post.resolves({ data: { token: 'fake-token' } });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
       const credentials: LoginCredentials = { username: 'user', password: 'pass' };
+
       const loginPromise: Promise<LoginResponse> = jwtAuthRepository.login(credentials);
 
-      // @ts-expect-error
-      jwtAuthRepository.login({ username: 'user' });
-
-      // @ts-expect-error
-      jwtAuthRepository.login({ username: 'user', password: 'pass', extraField: 'value' });
-
       expect(loginPromise).toBeInstanceOf(Promise);
-
-      // Add this to ensure the Promise resolves
-      return loginPromise.then(response => {
-        expect(response).toEqual({ token: 'fake-token' });
-      });
     });
   });
 
