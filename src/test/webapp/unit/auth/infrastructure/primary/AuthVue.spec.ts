@@ -37,6 +37,7 @@ describe('AuthVue', () => {
   it('should render login form when not authenticated', async () => {
     const authRepository = stubAuthRepository();
     setAuthenticatedState(authRepository, false);
+
     const wrapper = wrap(authRepository);
     await flushPromises();
 
@@ -49,6 +50,7 @@ describe('AuthVue', () => {
   it('should render welcome message and logout button when authenticated', async () => {
     const authRepository = stubAuthRepository();
     setAuthenticatedState(authRepository, true);
+
     const wrapper = wrap(authRepository);
     await flushPromises();
 
@@ -62,15 +64,11 @@ describe('AuthVue', () => {
     setAuthenticatedState(authRepository, false);
     const wrapper = wrap(authRepository);
     await flushPromises();
-
     await wrapper.find('input[type="text"]').setValue('testuser');
     await wrapper.find('input[type="password"]').setValue('password');
     await wrapper.find('form').trigger('submit');
 
     expect(authRepository.login.calledWith('testuser', 'password')).toBe(true);
-
-    // Wait for the login promise to resolve
-    await flushPromises();
 
     setAuthenticatedState(authRepository, true);
     const wrapperLoggedIn = wrap(authRepository);
@@ -89,7 +87,6 @@ describe('AuthVue', () => {
     await wrapper.find('button').trigger('click');
 
     expect(authRepository.logout.called).toBe(true);
-
     setAuthenticatedState(authRepository, false);
     const wrapperLoggedOut = wrap(authRepository);
     await flushPromises();
@@ -100,6 +97,7 @@ describe('AuthVue', () => {
   it('should check authentication status on component mount', async () => {
     const authRepository = stubAuthRepository();
     setAuthenticatedState(authRepository, true);
+
     const wrapper = wrap(authRepository);
     await flushPromises();
 
@@ -111,6 +109,7 @@ describe('AuthVue', () => {
   it('should not call getCurrentUser when not authenticated', async () => {
     const authRepository = stubAuthRepository();
     setAuthenticatedState(authRepository, false);
+
     const wrapper = wrap(authRepository);
     await flushPromises();
 
