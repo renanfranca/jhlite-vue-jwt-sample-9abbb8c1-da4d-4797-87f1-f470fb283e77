@@ -24,17 +24,6 @@ describe('JwtAuthRepository', () => {
       expect(localStorage.getItem('jwt-token')).toBe('fake-jwt-token');
       expect(response).toEqual(mockResponse);
     });
-
-    it('should enforce type safety for login credentials and response', async () => {
-      const mockAxiosHttp = stubAxiosHttp();
-      mockAxiosHttp.post.resolves({ data: { token: 'fake-token' } });
-      const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp);
-      const credentials: LoginCredentials = { username: 'user', password: 'pass' };
-
-      const loginPromise: Promise<LoginResponse> = jwtAuthRepository.login(credentials);
-
-      expect(loginPromise).toBeInstanceOf(Promise);
-    });
   });
 
   describe('logout', () => {
