@@ -36,20 +36,24 @@ export default defineComponent({
         .then(authenticated => {
           isAuthenticated.value = authenticated;
           if (isAuthenticated.value) {
-            authRepository
-              .getCurrentUser()
-              .then(user => {
-                currentUser.value = user;
-              })
-              .catch(error => {
-                console.error('Error getting current user:', error);
-              });
+            loggedCurrentUser();
           } else {
             currentUser.value = null;
           }
         })
         .catch(error => {
           console.error('Error during authentication check:', error);
+        });
+    };
+
+    const loggedCurrentUser = (): void => {
+      authRepository
+        .getCurrentUser()
+        .then(user => {
+          currentUser.value = user;
+        })
+        .catch(error => {
+          console.error('Error getting current user:', error);
         });
     };
 
