@@ -32,7 +32,7 @@ export default defineComponent({
 
     const checkAuth = () => {
       authRepository
-        .isAuthenticated()
+        .authenticated()
         .then(authenticated => {
           isAuthenticated.value = authenticated;
           if (isAuthenticated.value) {

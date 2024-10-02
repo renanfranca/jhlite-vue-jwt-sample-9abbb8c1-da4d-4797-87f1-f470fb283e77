@@ -30,7 +30,7 @@ export class JwtAuthRepository implements AuthRepository {
     return this.axiosHttp.get<AuthenticatedUser>('api/account').then(response => response.data);
   }
 
-  isAuthenticated(): Promise<boolean> {
+  authenticated(): Promise<boolean> {
     return this.getToken()
       .then(token => !!token)
       .catch(() => false);

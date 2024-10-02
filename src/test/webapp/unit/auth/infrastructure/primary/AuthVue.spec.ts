@@ -12,7 +12,7 @@ describe('AuthVue', () => {
     login: SinonStub;
     logout: SinonStub;
     currentUser: SinonStub;
-    isAuthenticated: SinonStub;
+    authenticated: SinonStub;
     getToken: SinonStub;
   }
 
@@ -20,7 +20,7 @@ describe('AuthVue', () => {
     login: sinon.stub().resolves(),
     logout: sinon.stub(),
     currentUser: sinon.stub(),
-    isAuthenticated: sinon.stub(),
+    authenticated: sinon.stub(),
     getToken: sinon.stub(),
   });
 
@@ -30,7 +30,7 @@ describe('AuthVue', () => {
   };
 
   const setAuthenticatedState = (authRepository: AuthRepositoryStub, authenticated: boolean) => {
-    authRepository.isAuthenticated.resolves(authenticated);
+    authRepository.authenticated.resolves(authenticated);
     if (authenticated) {
       const mockUser: AuthenticatedUser = {
         activated: true,
@@ -77,7 +77,7 @@ describe('AuthVue', () => {
     const wrapper = wrap(authRepository);
     await flushPromises();
 
-    expect(authRepository.isAuthenticated.called).toBe(true);
+    expect(authRepository.authenticated.called).toBe(true);
     expect(authRepository.currentUser.called).toBe(false);
     expect(wrapper.find('form').exists()).toBe(true);
   });

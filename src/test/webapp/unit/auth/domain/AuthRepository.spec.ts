@@ -7,12 +7,12 @@ describe('AuthRepository', () => {
       login: vi.fn(),
       logout: vi.fn(),
       currentUser: vi.fn(),
-      isAuthenticated: vi.fn(),
+      authenticated: vi.fn(),
     };
 
     expect(mockRepository.login).toBeDefined();
     expect(mockRepository.logout).toBeDefined();
     expect(mockRepository.currentUser).toBeDefined();
-    expect(mockRepository.isAuthenticated).toBeDefined();
+    expect(mockRepository.authenticated).toBeDefined();
   });
 });

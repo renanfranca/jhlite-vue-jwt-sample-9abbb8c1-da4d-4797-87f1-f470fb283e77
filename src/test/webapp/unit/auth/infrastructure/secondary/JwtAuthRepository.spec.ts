@@ -69,7 +69,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = await jwtAuthRepository.authenticated();
 
       expect(isAuthenticated).toBe(true);
     });
@@ -79,7 +79,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = await jwtAuthRepository.authenticated();
 
       expect(isAuthenticated).toBe(false);
     });
