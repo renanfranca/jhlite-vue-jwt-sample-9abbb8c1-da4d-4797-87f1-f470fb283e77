@@ -1,8 +1,8 @@
 import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
-import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { JwtAuthRepository } from '@/auth/infrastructure/secondary/JwtAuthRepository';
 import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
+import type { RestLoginResponse } from '@/auth/infrastructure/secondary/RestLoginResponse';
 import { describe, expect, it } from 'vitest';
 import { stubAxiosHttp } from '../../../shared/http/infrastructure/secondary/AxiosHttpStub';
 
@@ -11,7 +11,7 @@ const STORAGE_KEY_JWT_TOKEN = 'jwtToken';
 describe('JwtAuthRepository', () => {
   describe('login', () => {
     it('should call the login endpoint with correct credentials and store the token', async () => {
-      const mockResponse: LoginResponse = { id_token: 'fake-jwt-token' };
+      const mockResponse: RestLoginResponse = { id_token: 'fake-jwt-token' };
       const mockAxiosHttp = stubAxiosHttp();
       mockAxiosHttp.post.resolves({ data: mockResponse });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);

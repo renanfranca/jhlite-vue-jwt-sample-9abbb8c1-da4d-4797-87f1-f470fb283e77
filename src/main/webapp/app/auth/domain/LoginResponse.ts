@@ -1,5 +1,5 @@
-type LoginResponseIdToken = string;
+type LoginResponseToken = string;
 
 export type LoginResponse = {
-  id_token: LoginResponseIdToken;
+  token: LoginResponseToken;
 };
