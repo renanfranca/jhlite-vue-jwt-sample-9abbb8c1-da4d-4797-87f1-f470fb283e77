@@ -74,8 +74,11 @@ export default defineComponent({
     };
 
     const logout = () => {
-      authRepository.logout();
-      checkAuth();
+      authRepository.logout().then(() => {
+        checkAuth();
+      }).catch(error => {
+        console.error('Logout error:', error);
+      });
     };
 
     onMounted(() => {
