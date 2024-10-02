@@ -11,7 +11,7 @@ describe('AuthVue', () => {
   interface AuthRepositoryStub {
     login: SinonStub;
     logout: SinonStub;
-    getCurrentUser: SinonStub;
+    currentUser: SinonStub;
     isAuthenticated: SinonStub;
     getToken: SinonStub;
   }
@@ -19,7 +19,7 @@ describe('AuthVue', () => {
   const stubAuthRepository = (): AuthRepositoryStub => ({
     login: sinon.stub().resolves(),
     logout: sinon.stub(),
-    getCurrentUser: sinon.stub(),
+    currentUser: sinon.stub(),
     isAuthenticated: sinon.stub(),
     getToken: sinon.stub(),
   });
@@ -41,7 +41,7 @@ describe('AuthVue', () => {
         langKey: 'en',
         login: 'test.user',
       };
-      authRepository.getCurrentUser.resolves(mockUser);
+      authRepository.currentUser.resolves(mockUser);
     }
   };
 
@@ -78,7 +78,7 @@ describe('AuthVue', () => {
     await flushPromises();
 
     expect(authRepository.isAuthenticated.called).toBe(true);
-    expect(authRepository.getCurrentUser.called).toBe(false);
+    expect(authRepository.currentUser.called).toBe(false);
     expect(wrapper.find('form').exists()).toBe(true);
   });
 });

@@ -6,13 +6,13 @@ describe('AuthRepository', () => {
     const mockRepository: AuthRepository = {
       login: vi.fn(),
       logout: vi.fn(),
-      getCurrentUser: vi.fn(),
+      currentUser: vi.fn(),
       isAuthenticated: vi.fn(),
     };
 
     expect(mockRepository.login).toBeDefined();
     expect(mockRepository.logout).toBeDefined();
-    expect(mockRepository.getCurrentUser).toBeDefined();
+    expect(mockRepository.currentUser).toBeDefined();
     expect(mockRepository.isAuthenticated).toBeDefined();
   });
 });

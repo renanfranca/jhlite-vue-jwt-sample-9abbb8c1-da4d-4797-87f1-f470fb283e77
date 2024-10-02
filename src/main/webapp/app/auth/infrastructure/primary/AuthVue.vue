@@ -48,7 +48,7 @@ export default defineComponent({
 
     const loggedCurrentUser = (): void => {
       authRepository
-        .getCurrentUser()
+        .currentUser()
         .then(user => {
           currentUser.value = user;
         })

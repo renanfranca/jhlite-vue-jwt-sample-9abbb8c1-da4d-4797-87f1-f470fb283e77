@@ -26,7 +26,7 @@ export class JwtAuthRepository implements AuthRepository {
     return Promise.resolve();
   }
 
-  getCurrentUser(): Promise<AuthenticatedUser> {
+  currentUser(): Promise<AuthenticatedUser> {
     return this.axiosHttp.get<AuthenticatedUser>('api/account').then(response => response.data);
   }
 

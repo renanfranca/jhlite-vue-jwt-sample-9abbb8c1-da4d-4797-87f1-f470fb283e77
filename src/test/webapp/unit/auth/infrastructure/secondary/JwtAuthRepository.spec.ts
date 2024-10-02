@@ -54,7 +54,7 @@ describe('JwtAuthRepository', () => {
       mockAxiosHttp.get.resolves({ data: mockUser });
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      const user = await jwtAuthRepository.getCurrentUser();
+      const user = await jwtAuthRepository.currentUser();
 
       const [uri, payload] = mockAxiosHttp.get.getCall(0).args;
       expect(uri).toBe('api/account');
