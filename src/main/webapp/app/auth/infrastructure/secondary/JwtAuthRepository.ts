@@ -18,10 +18,7 @@ export class JwtAuthRepository implements AuthRepository {
   login(credentials: LoginCredentials): Promise<void> {
     return this.axiosHttp
       .post<RestAuthentication, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
-      .then(response => {
-        const loginResponse = mapToAuthentication(response.data);
-        this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, loginResponse.token);
-      });
+      .then(response => this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, mapToAuthentication(response).token));
   }
 
   logout(): void {
