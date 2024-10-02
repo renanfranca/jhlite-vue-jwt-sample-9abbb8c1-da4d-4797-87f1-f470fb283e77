@@ -96,14 +96,20 @@ describe('JwtAuthRepository', () => {
       expect(token).toBe('fake-jwt-token');
     });
 
-    it('should return null if no token exists in localStorage', async () => {
+    it('should reject with an error if no token exists in localStorage', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
 
-      const token = await jwtAuthRepository.getToken();
-
-      expect(token).toBeNull();
+      return jwtAuthRepository.getToken()
+        .then(() => {
+          // If the promise resolves, fail the test
+          throw new Error('Expected getToken to reject, but it resolved');
+        })
+        .catch(error => {
+          expect(error).toBeInstanceOf(Error);
+          expect(error.message).toBe('No authentication token found');
+        });
     });
   });
 });
