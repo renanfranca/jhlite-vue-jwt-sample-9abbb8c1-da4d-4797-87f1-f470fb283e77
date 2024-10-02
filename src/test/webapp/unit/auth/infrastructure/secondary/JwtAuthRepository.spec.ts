@@ -39,7 +39,7 @@ describe('JwtAuthRepository', () => {
     });
   });
 
-  describe('getCurrentUser', () => {
+  describe('currentUser', () => {
     it('should call the user endpoint and return the user data', async () => {
       const mockUser: AuthenticatedUser = {
         activated: true,
@@ -63,7 +63,7 @@ describe('JwtAuthRepository', () => {
     });
   });
 
-  describe('isAuthenticated', () => {
+  describe('authenticated', () => {
     it('should return true if a token exists in localStorage', async () => {
       localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
       const mockAxiosHttp = stubAxiosHttp();
@@ -85,7 +85,7 @@ describe('JwtAuthRepository', () => {
     });
   });
 
-  describe('getToken', () => {
+  describe('token', () => {
     it('should return the token if it exists in localStorage', async () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
