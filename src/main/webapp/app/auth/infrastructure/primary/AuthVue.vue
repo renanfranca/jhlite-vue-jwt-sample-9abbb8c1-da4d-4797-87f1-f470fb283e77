@@ -1,14 +1,14 @@
 <template>
   <div class="auth-container">
-    <form class="auth-form" v-if="!isAuthenticated" @submit.prevent="login">
+    <form v-if="!isAuthenticated" class="auth-form" @submit.prevent="login">
       <h2 class="auth-title">Login</h2>
-      <input type="text" v-model="username" placeholder="Username" class="auth-input" required />
-      <input type="password" v-model="password" placeholder="Password" class="auth-input" required />
+      <input v-model="username" type="text" placeholder="Username" class="auth-input" required />
+      <input v-model="password" type="password" placeholder="Password" class="auth-input" required />
       <button type="submit" class="auth-btn">Login</button>
     </form>
     <div v-else class="welcome">
       <p>Welcome, {{ currentUser?.login }}</p>
-      <button @click="logout" class="auth-btn logout-btn">Logout</button>
+      <button class="auth-btn logout-btn" @click="logout">Logout</button>
     </div>
   </div>
 </template>
@@ -18,7 +18,6 @@ import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
 import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
-import type { LoginResponse } from '@/auth/domain/LoginResponse';
 import { inject } from '@/injections';
 import { defineComponent, onMounted, ref } from 'vue';
 
@@ -34,7 +33,8 @@ export default defineComponent({
     const checkAuth = () => {
       isAuthenticated.value = authRepository.isAuthenticated();
       if (isAuthenticated.value) {
-        authRepository.getCurrentUser()
+        authRepository
+          .getCurrentUser()
           .then(user => {
             currentUser.value = user;
           })
@@ -49,10 +49,11 @@ export default defineComponent({
     const login = () => {
       const credentials: LoginCredentials = {
         username: username.value,
-        password: password.value
+        password: password.value,
       };
 
-      authRepository.login(credentials)
+      authRepository
+        .login(credentials)
         .then(() => {
           checkAuth();
         })
