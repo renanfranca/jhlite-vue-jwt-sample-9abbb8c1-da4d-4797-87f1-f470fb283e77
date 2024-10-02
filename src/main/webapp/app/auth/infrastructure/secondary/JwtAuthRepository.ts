@@ -1,10 +1,10 @@
 import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
 import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
+import type { RestAuthentication } from '@/auth/infrastructure/secondary/RestAuthentication';
+import { mapToAuthentication } from '@/auth/infrastructure/secondary/RestAuthentication';
 import type { RestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
 import { toRestLoginCredentials } from '@/auth/infrastructure/secondary/RestLoginCredentials';
-import type { RestLoginResponse } from '@/auth/infrastructure/secondary/RestLoginResponse';
-import { mapToAuthentication } from '@/auth/infrastructure/secondary/RestLoginResponse';
 import type { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp';
 
 const STORAGE_KEY_JWT_TOKEN = 'jwtToken';
@@ -17,7 +17,7 @@ export class JwtAuthRepository implements AuthRepository {
 
   login(credentials: LoginCredentials): Promise<void> {
     return this.axiosHttp
-      .post<RestLoginResponse, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
+      .post<RestAuthentication, RestLoginCredentials>('api/authenticate', toRestLoginCredentials(credentials))
       .then(response => {
         const loginResponse = mapToAuthentication(response.data);
         this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, loginResponse.token);
