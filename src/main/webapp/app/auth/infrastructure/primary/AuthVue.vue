@@ -31,19 +31,26 @@ export default defineComponent({
     const password = ref('');
 
     const checkAuth = () => {
-      isAuthenticated.value = authRepository.isAuthenticated();
-      if (isAuthenticated.value) {
-        authRepository
-          .getCurrentUser()
-          .then(user => {
-            currentUser.value = user;
-          })
-          .catch(error => {
-            console.error('Error getting current user:', error);
-          });
-      } else {
-        currentUser.value = null;
-      }
+      authRepository
+        .isAuthenticated()
+        .then(authenticated => {
+          isAuthenticated.value = authenticated;
+          if (isAuthenticated.value) {
+            authRepository
+              .getCurrentUser()
+              .then(user => {
+                currentUser.value = user;
+              })
+              .catch(error => {
+                console.error('Error getting current user:', error);
+              });
+          } else {
+            currentUser.value = null;
+          }
+        })
+        .catch(error => {
+          console.error('Error during authentication check:', error);
+        });
     };
 
     const login = () => {

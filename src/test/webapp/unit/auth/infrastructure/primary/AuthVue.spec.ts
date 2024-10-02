@@ -1,12 +1,11 @@
 import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
+import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 import AuthVue from '@/auth/infrastructure/primary/AuthVue.vue';
 import { provide } from '@/injections';
-import { flushPromises, type VueWrapper } from '@vue/test-utils';
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount, type VueWrapper } from '@vue/test-utils';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 import { describe, expect, it } from 'vitest';
-import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
 
 describe('AuthVue', () => {
   interface AuthRepositoryStub {
@@ -14,6 +13,7 @@ describe('AuthVue', () => {
     logout: SinonStub;
     getCurrentUser: SinonStub;
     isAuthenticated: SinonStub;
+    getToken: SinonStub;
   }
 
   const stubAuthRepository = (): AuthRepositoryStub => ({
@@ -21,6 +21,7 @@ describe('AuthVue', () => {
     logout: sinon.stub(),
     getCurrentUser: sinon.stub(),
     isAuthenticated: sinon.stub(),
+    getToken: sinon.stub(),
   });
 
   const wrap = (authRepository: AuthRepositoryStub): VueWrapper => {
@@ -29,7 +30,7 @@ describe('AuthVue', () => {
   };
 
   const setAuthenticatedState = (authRepository: AuthRepositoryStub, authenticated: boolean) => {
-    authRepository.isAuthenticated.returns(authenticated);
+    authRepository.isAuthenticated.resolves(authenticated);
     if (authenticated) {
       const mockUser: AuthenticatedUser = {
         activated: true,
