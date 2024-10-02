@@ -31,12 +31,12 @@ export class JwtAuthRepository implements AuthRepository {
   }
 
   authenticated(): Promise<boolean> {
-    return this.getToken()
+    return this.token()
       .then(token => !!token)
       .catch(() => false);
   }
 
-  getToken(): Promise<string> {
+  token(): Promise<string> {
     return new Promise((resolve, reject) => {
       const token = this.localStorage.getItem(STORAGE_KEY_JWT_TOKEN);
       if (token) {

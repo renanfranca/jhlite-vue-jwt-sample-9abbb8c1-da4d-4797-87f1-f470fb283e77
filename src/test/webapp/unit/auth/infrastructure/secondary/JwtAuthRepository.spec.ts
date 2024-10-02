@@ -91,7 +91,7 @@ describe('JwtAuthRepository', () => {
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
 
-      const token = await jwtAuthRepository.getToken();
+      const token = await jwtAuthRepository.token();
 
       expect(token).toBe('fake-jwt-token');
     });
@@ -101,7 +101,7 @@ describe('JwtAuthRepository', () => {
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
 
-      return expect(jwtAuthRepository.getToken()).rejects.toThrow('No authentication token found');
+      return expect(jwtAuthRepository.token()).rejects.toThrow('No authentication token found');
     });
   });
 });

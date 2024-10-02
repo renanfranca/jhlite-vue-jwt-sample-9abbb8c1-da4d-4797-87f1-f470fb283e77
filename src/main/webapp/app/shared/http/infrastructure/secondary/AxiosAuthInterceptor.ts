@@ -7,7 +7,7 @@ export const setupAxiosInterceptors = (axios: AxiosInstance): void => {
 
   axios.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
     if (auths.authenticated()) {
-      const token = auths.getToken();
+      const token = auths.token();
       config.headers.set('Authorization', `Bearer ${token}`);
     }
     return config;
