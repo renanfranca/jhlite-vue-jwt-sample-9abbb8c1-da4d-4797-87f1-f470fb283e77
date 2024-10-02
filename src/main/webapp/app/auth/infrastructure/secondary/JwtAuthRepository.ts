@@ -29,11 +29,20 @@ export class JwtAuthRepository implements AuthRepository {
     return this.axiosHttp.get<AuthenticatedUser>('api/account').then(response => response.data);
   }
 
-  isAuthenticated(): boolean {
-    return !!this.localStorage.getItem(STORAGE_KEY_JWT_TOKEN);
+  isAuthenticated(): Promise<boolean> {
+    return this.getToken()
+      .then(token => !!token)
+      .catch(() => false);
   }
 
-  getToken(): string | null {
-    return this.localStorage.getItem(STORAGE_KEY_JWT_TOKEN);
+  getToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const token = this.localStorage.getItem(STORAGE_KEY_JWT_TOKEN);
+      if (token) {
+        resolve(token);
+      } else {
+        reject(new Error('No authentication token found'));
+      }
+    });
   }
 }

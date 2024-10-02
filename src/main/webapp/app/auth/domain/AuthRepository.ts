@@ -4,6 +4,6 @@ export interface AuthRepository {
   login(credentials: LoginCredentials): Promise<void>;
   logout(): void;
   getCurrentUser(): Promise<any>;
-  isAuthenticated(): boolean;
-  getToken(): string | null;
+  isAuthenticated(): Promise<boolean>;
+  getToken(): Promise<string>;
 }

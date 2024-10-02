@@ -33,7 +33,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      jwtAuthRepository.logout();
+      await jwtAuthRepository.logout();
 
       expect(localStorage.getItem(STORAGE_KEY_JWT_TOKEN)).toBeNull();
     });
@@ -69,7 +69,7 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      const isAuthenticated = jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
 
       expect(isAuthenticated).toBe(true);
     });
@@ -79,29 +79,29 @@ describe('JwtAuthRepository', () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
 
-      const isAuthenticated = jwtAuthRepository.isAuthenticated();
+      const isAuthenticated = await jwtAuthRepository.isAuthenticated();
 
       expect(isAuthenticated).toBe(false);
     });
   });
 
   describe('getToken', () => {
-    it('should return the token if it exists in localStorage', () => {
+    it('should return the token if it exists in localStorage', async () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       localStorage.setItem(STORAGE_KEY_JWT_TOKEN, 'fake-jwt-token');
 
-      const token = jwtAuthRepository.getToken();
+      const token = await jwtAuthRepository.getToken();
 
       expect(token).toBe('fake-jwt-token');
     });
 
-    it('should return null if no token exists in localStorage', () => {
+    it('should return null if no token exists in localStorage', async () => {
       const mockAxiosHttp = stubAxiosHttp();
       const jwtAuthRepository = new JwtAuthRepository(mockAxiosHttp, localStorage);
       localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
 
-      const token = jwtAuthRepository.getToken();
+      const token = await jwtAuthRepository.getToken();
 
       expect(token).toBeNull();
     });
