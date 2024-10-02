@@ -21,8 +21,9 @@ export class JwtAuthRepository implements AuthRepository {
       .then(response => this.localStorage.setItem(STORAGE_KEY_JWT_TOKEN, mapToAuthentication(response).token));
   }
 
-  logout(): void {
+  logout(): Promise<void> {
     this.localStorage.removeItem(STORAGE_KEY_JWT_TOKEN);
+    return Promise.resolve();
   }
 
   getCurrentUser(): Promise<AuthenticatedUser> {
