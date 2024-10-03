@@ -11,8 +11,7 @@ export const setupAxiosInterceptors = (axios: AxiosInstance): void => {
       .then(authenticated => {
         if (authenticated) {
           return auths.token().then(token => {
-            config.headers = config.headers || {};
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers.set('Authorization', `Bearer ${token}`);
             return config;
           });
         }
