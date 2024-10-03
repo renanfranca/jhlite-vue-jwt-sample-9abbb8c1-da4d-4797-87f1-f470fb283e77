@@ -13,7 +13,7 @@ describe('AuthVue', () => {
     logout: SinonStub;
     currentUser: SinonStub;
     authenticated: SinonStub;
-    getToken: SinonStub;
+    token: SinonStub;
   }
 
   const stubAuthRepository = (): AuthRepositoryStub => ({
@@ -21,7 +21,7 @@ describe('AuthVue', () => {
     logout: sinon.stub(),
     currentUser: sinon.stub(),
     authenticated: sinon.stub(),
-    getToken: sinon.stub(),
+    token: sinon.stub(),
   });
 
   const wrap = (authRepository: AuthRepositoryStub): VueWrapper => {
