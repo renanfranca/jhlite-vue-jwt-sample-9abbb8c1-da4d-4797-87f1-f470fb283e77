@@ -35,7 +35,7 @@ describe('AxiosAuthInterceptor', () => {
     setupAxiosInterceptors(axiosInstance);
   };
 
-  it('adds Authorization header for authenticated requests', () => {
+  it('should add Authorization header for authenticated requests', () => {
     setupTest();
     mockAuthRepository.authenticated.resolves(true);
     mockAuthRepository.token.resolves('fake-token');
@@ -48,7 +48,7 @@ describe('AxiosAuthInterceptor', () => {
     });
   });
 
-  it('does not add Authorization header for unauthenticated requests', () => {
+  it('should not add Authorization header for unauthenticated requests', () => {
     setupTest();
     mockAuthRepository.authenticated.resolves(false);
     const config: InternalAxiosRequestConfig = { headers: new AxiosHeaders() };
@@ -60,7 +60,7 @@ describe('AxiosAuthInterceptor', () => {
     });
   });
 
-  it('calls logout on 401 response', () => {
+  it('should call logout on 401 response', () => {
     setupTest();
     const error: AxiosError = {
       response: { status: 401 } as AxiosResponse,
@@ -76,7 +76,7 @@ describe('AxiosAuthInterceptor', () => {
     });
   });
 
-  it('does not call logout for non-401 errors', () => {
+  it('should not call logout for non-401 errors', () => {
     setupTest();
     const error: AxiosError = {
       response: { status: 500 } as AxiosResponse,
@@ -92,7 +92,7 @@ describe('AxiosAuthInterceptor', () => {
     });
   });
 
-  it('passes through successful responses without modification', () => {
+  it('should pass through successful responses without modification', () => {
     setupTest();
     const mockResponse: AxiosResponse = {
       data: {},
