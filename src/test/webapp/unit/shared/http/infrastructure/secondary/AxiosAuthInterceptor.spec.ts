@@ -41,7 +41,7 @@ describe('AxiosAuthInterceptor', () => {
     mockAuthRepository.token.resolves('fake-token');
     const config: InternalAxiosRequestConfig = { headers: new AxiosHeaders() };
 
-    return axiosInstance.runInterceptors(config).then(interceptedConfig => {
+    axiosInstance.runInterceptors(config).then(interceptedConfig => {
       expect(mockAuthRepository.authenticated.called).toBe(true);
       expect(mockAuthRepository.token.called).toBe(true);
       expect(interceptedConfig.headers['Authorization']).toBe('Bearer fake-token');
@@ -53,7 +53,7 @@ describe('AxiosAuthInterceptor', () => {
     mockAuthRepository.authenticated.resolves(false);
     const config: InternalAxiosRequestConfig = { headers: new AxiosHeaders() };
 
-    return axiosInstance.runInterceptors(config).then(interceptedConfig => {
+    axiosInstance.runInterceptors(config).then(interceptedConfig => {
       expect(mockAuthRepository.authenticated.called).toBe(true);
       expect(mockAuthRepository.token.called).toBe(false);
       expect(interceptedConfig.headers['Authorization']).toBeUndefined();
@@ -71,7 +71,7 @@ describe('AxiosAuthInterceptor', () => {
     };
     const responseInterceptor = axiosInstance.interceptors.response.use.args[0][1];
 
-    return responseInterceptor(error).catch(() => {
+    responseInterceptor(error).catch(() => {
       expect(mockAuthRepository.logout.called).toBe(true);
     });
   });
@@ -87,7 +87,7 @@ describe('AxiosAuthInterceptor', () => {
     };
     const responseInterceptor = axiosInstance.interceptors.response.use.args[0][1];
 
-    return responseInterceptor(error).catch(() => {
+    responseInterceptor(error).catch(() => {
       expect(mockAuthRepository.logout.called).toBe(false);
     });
   });
