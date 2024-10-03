@@ -103,8 +103,7 @@ describe('AxiosAuthInterceptor', () => {
     };
     const responseInterceptor = axiosInstance.interceptors.response.use.args[0][0];
 
-    return responseInterceptor(mockResponse).then(result => {
-      expect(result).toEqual(mockResponse);
-    });
+    const result = responseInterceptor(mockResponse);
+    expect(result).toEqual(mockResponse);
   });
 });
