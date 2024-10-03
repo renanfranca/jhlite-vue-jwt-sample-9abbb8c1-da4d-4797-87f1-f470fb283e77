@@ -2,7 +2,7 @@
   <div class="auth-container">
     <form v-if="!isAuthenticated" class="auth-form" @submit.prevent="login">
       <h2 class="auth-title">Login</h2>
-      <input v-model="username" type="text" placeholder="Username" class="auth-input" required />
+      <input v-model="username" type="text" placeholder="Username" class="auth-input" required autofocus />
       <input v-model="password" type="password" placeholder="Password" class="auth-input" required />
       <button type="submit" class="auth-btn">Login</button>
     </form>
@@ -74,11 +74,14 @@ export default defineComponent({
     };
 
     const logout = () => {
-      authRepository.logout().then(() => {
-        checkAuth();
-      }).catch(error => {
-        console.error('Logout error:', error);
-      });
+      authRepository
+        .logout()
+        .then(() => {
+          checkAuth();
+        })
+        .catch(error => {
+          console.error('Logout error:', error);
+        });
     };
 
     onMounted(() => {
@@ -103,8 +106,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4f4f9;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .auth-form {
