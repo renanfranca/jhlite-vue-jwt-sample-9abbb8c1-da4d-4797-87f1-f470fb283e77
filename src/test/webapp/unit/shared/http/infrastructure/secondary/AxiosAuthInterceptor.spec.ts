@@ -1,19 +1,21 @@
-import { describe, it, expect } from 'vitest';
-import type { InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
-import { setupAxiosInterceptors } from '@/shared/http/infrastructure/secondary/AxiosAuthInterceptor';
 import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
-import { provide } from '@/injections';
-import sinon from 'sinon';
-import type { SinonStub } from 'sinon';
 import type { AuthRepository } from '@/auth/domain/AuthRepository';
-import { stubAxiosInstance } from './AxiosStub';
-import type { AxiosStubInstance } from './AxiosStub';
+import { provide } from '@/injections';
+import { setupAxiosInterceptors } from '@/shared/http/infrastructure/secondary/AxiosAuthInterceptor';
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { AxiosHeaders } from 'axios';
+import type { SinonStub } from 'sinon';
+import sinon from 'sinon';
+import { describe, expect, it } from 'vitest';
+import type { AxiosStubInstance } from './AxiosStub';
+import { stubAxiosInstance } from './AxiosStub';
 
 interface MockAuthRepository extends AuthRepository {
+  login: SinonStub;
+  logout: SinonStub;
+  currentUser: SinonStub;
   authenticated: SinonStub;
   token: SinonStub;
-  logout: SinonStub;
 }
 
 describe('AxiosAuthInterceptor', () => {
@@ -23,9 +25,9 @@ describe('AxiosAuthInterceptor', () => {
   const setupTest = () => {
     axiosInstance = stubAxiosInstance();
     mockAuthRepository = {
-      currentUser: sinon.stub(),
       login: sinon.stub(),
       logout: sinon.stub(),
+      currentUser: sinon.stub(),
       authenticated: sinon.stub(),
       token: sinon.stub(),
     };
