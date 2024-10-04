@@ -79,94 +79,175 @@ This file contains both the template and component logic for the authentication 
 </template>
 
 <script lang="ts">
-import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
-import type { AuthRepository } from '@/auth/domain/AuthRepository';
-import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
-import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
-import { inject } from '@/injections';
-import { defineComponent, onMounted, ref } from 'vue';
+  import { AUTH_REPOSITORY } from '@/auth/application/AuthProvider';
+  import type { AuthRepository } from '@/auth/domain/AuthRepository';
+  import type { AuthenticatedUser } from '@/auth/domain/AuthenticatedUser';
+  import type { LoginCredentials } from '@/auth/domain/LoginCredentials';
+  import { inject } from '@/injections';
+  import { defineComponent, onMounted, ref } from 'vue';
 
-export default defineComponent({
-  name: 'AuthVue',
-  setup() {
-    const authRepository = inject(AUTH_REPOSITORY) as AuthRepository;
-    const isAuthenticated = ref(false);
-    const currentUser = ref<AuthenticatedUser | null>(null);
-    const username = ref('');
-    const password = ref('');
+  export default defineComponent({
+    name: 'AuthVue',
+    setup() {
+      const authRepository = inject(AUTH_REPOSITORY) as AuthRepository;
+      const isAuthenticated = ref(false);
+      const currentUser = ref<AuthenticatedUser | null>(null);
+      const username = ref('');
+      const password = ref('');
 
-    const checkAuth = () => {
-      authRepository
-        .authenticated()
-        .then(authenticated => {
-          isAuthenticated.value = authenticated;
-          if (isAuthenticated.value) {
-            loggedCurrentUser();
-          } else {
-            currentUser.value = null;
-          }
-        })
-        .catch(error => {
-          console.error('Error during authentication check:', error);
-        });
-    };
-
-    const loggedCurrentUser = (): void => {
-      authRepository
-        .currentUser()
-        .then(user => {
-          currentUser.value = user;
-        })
-        .catch(error => {
-          console.error('Error getting current user:', error);
-        });
-    };
-
-    const login = () => {
-      const credentials: LoginCredentials = {
-        username: username.value,
-        password: password.value,
+      const checkAuth = () => {
+        authRepository
+          .authenticated()
+          .then(authenticated => {
+            isAuthenticated.value = authenticated;
+            if (isAuthenticated.value) {
+              loggedCurrentUser();
+            } else {
+              currentUser.value = null;
+            }
+          })
+          .catch(error => {
+            console.error('Error during authentication check:', error);
+          });
       };
 
-      authRepository
-        .login(credentials)
-        .then(() => {
-          checkAuth();
-        })
-        .catch(error => {
-          console.error('Login error:', error);
-        });
-    };
+      const loggedCurrentUser = (): void => {
+        authRepository
+          .currentUser()
+          .then(user => {
+            currentUser.value = user;
+          })
+          .catch(error => {
+            console.error('Error getting current user:', error);
+          });
+      };
 
-    const logout = () => {
-      authRepository
-        .logout()
-        .then(() => {
-          checkAuth();
-        })
-        .catch(error => {
-          console.error('Logout error:', error);
-        });
-    };
+      const login = () => {
+        const credentials: LoginCredentials = {
+          username: username.value,
+          password: password.value,
+        };
 
-    onMounted(() => {
-      checkAuth();
-    });
+        authRepository
+          .login(credentials)
+          .then(() => {
+            checkAuth();
+          })
+          .catch(error => {
+            console.error('Login error:', error);
+          });
+      };
 
-    return {
-      isAuthenticated,
-      currentUser,
-      username,
-      password,
-      login,
-      logout,
-    };
-  },
-});
+      const logout = () => {
+        authRepository
+          .logout()
+          .then(() => {
+            checkAuth();
+          })
+          .catch(error => {
+            console.error('Logout error:', error);
+          });
+      };
+
+      onMounted(() => {
+        checkAuth();
+      });
+
+      return {
+        isAuthenticated,
+        currentUser,
+        username,
+        password,
+        login,
+        logout,
+      };
+    },
+  });
 </script>
 
 <style scoped>
-/* ... (styles omitted for brevity) ... */
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0 20px 20px 20px;
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .auth-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+
+  .auth-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .auth-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+
+  .auth-btn {
+    background-color: #3b82f6;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+  }
+
+  .auth-btn:hover {
+    background-color: #2563eb;
+  }
+
+  .logout-btn {
+    background-color: #f87171;
+  }
+
+  .logout-btn:hover {
+    background-color: #ef4444;
+  }
+
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .welcome p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
 </style>
 ```
 
@@ -239,7 +320,7 @@ describe('AuthVue', () => {
     logout: SinonStub;
     currentUser: SinonStub;
     authenticated: SinonStub;
-    getToken: SinonStub;
+    token: SinonStub;
   }
 
   const stubAuthRepository = (): AuthRepositoryStub => ({
@@ -247,7 +328,7 @@ describe('AuthVue', () => {
     logout: sinon.stub(),
     currentUser: sinon.stub(),
     authenticated: sinon.stub(),
-    getToken: sinon.stub(),
+    token: sinon.stub(),
   });
 
   const wrap = (authRepository: AuthRepositoryStub): VueWrapper => {
@@ -467,13 +548,13 @@ export const stubAxiosInstance = (): AxiosStubInstance => {
       request: {
         use: sinon.stub(),
         eject: sinon.stub(),
-        clear: sinon.stub(),
+        clear: sinon.stub()
       },
       response: {
         use: sinon.stub(),
         eject: sinon.stub(),
-        clear: sinon.stub(),
-      },
+        clear: sinon.stub()
+      }
     },
     runInterceptors: async (config: InternalAxiosRequestConfig) => {
       let currentConfig = { ...config, headers: config.headers || {} };
@@ -481,7 +562,7 @@ export const stubAxiosInstance = (): AxiosStubInstance => {
         currentConfig = await interceptor[0](currentConfig);
       }
       return currentConfig;
-    },
+    }
   } as AxiosStubInstance;
   return instance;
 };
