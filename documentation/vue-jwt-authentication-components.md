@@ -537,3 +537,5 @@ This documentation provides a detailed overview of the JWT authentication compon
 The core of the authentication system is the `AuthVue` component, which manages user login and logout processes. The `AxiosAuthInterceptor` ensures that all authenticated requests are properly equipped with the necessary JWT authorization headers.
 
 The accompanying test files (`AuthVue.spec.ts`, `AxiosAuthInterceptor.spec.ts`) demonstrate how to effectively test these components, while the stub file (`AxiosStub.ts`) provides mock implementations of Axios, enabling more streamlined and reliable testing.
+
+For the backend setup, the **JHLite Backend** documentation outlines the necessary steps to configure the `spring-boot-jwt-basic-auth` module, which serves as the foundation for handling authentication and authorization in the application. This integration ensures a secure and robust communication layer between the frontend and backend, enabling JWT-based authentication.
