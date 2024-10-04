@@ -1,4 +1,4 @@
-import type { AxiosHttp, AxiosHttpResponse } from '@/shared/http/infrastructure/secondary/AxiosHttp';
+import type { AxiosHttp } from '@/shared/http/infrastructure/secondary/AxiosHttp';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 
