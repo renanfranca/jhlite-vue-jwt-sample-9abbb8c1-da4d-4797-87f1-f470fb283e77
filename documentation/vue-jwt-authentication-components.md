@@ -494,12 +494,11 @@ export const dataAxiosResponse = <T>(data: T): AxiosResponse<T> =>
 
 ## JHLite Backend
 
-Start the JHLite application and apply the `spring-boot-jwt-basic-auth` module and the requirements dependencies.
+Start the JHLite application and apply the `spring-boot-jwt-basic-auth` module and the required dependencies.
 
-Than edit the `application-local.yml` file and add the following configuration:
+Then edit the `application-local.yml` file and add the following configuration:
 
 ```yaml
-
 application:
   cors:
     allowed-origins:
@@ -519,13 +518,14 @@ application:
     allowed-origin-patterns:
       - https://*.githubpreview.dev
 ```
-And run the application using the local profile (following example uses maven wrapper):
+
+Then run the application using the local profile (the following example uses the Maven wrapper):
 
 ```bash
 ./mvnw -Dspring-boot.run.profiles=local
 ```
 
-Now you can login using the following credentials:
+Now you can log in using the following credentials:
 
 - Username: `admin`
 - Password: `admin`
