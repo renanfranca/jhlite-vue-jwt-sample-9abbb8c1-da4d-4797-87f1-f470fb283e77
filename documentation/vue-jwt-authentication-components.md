@@ -492,6 +492,44 @@ export const dataAxiosResponse = <T>(data: T): AxiosResponse<T> =>
   }) as AxiosResponse<T>;
 ```
 
+## JHLite Backend
+
+Start the JHLite application and apply the `spring-boot-jwt-basic-auth` module and the requirements dependencies.
+
+Than edit the `application-local.yml` file and add the following configuration:
+
+```yaml
+
+application:
+  cors:
+    allowed-origins:
+      - http://localhost:8100
+      - http://localhost:9000
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers:
+      - Authorization
+      - Link
+      - X-Total-Count
+      - X-jhipster-alert
+      - X-jhipster-error
+      - X-jhipster-params
+    allow-credentials: true
+    max-age: 1800
+    allowed-origin-patterns:
+      - https://*.githubpreview.dev
+```
+And run the application using the local profile (following example uses maven wrapper):
+
+```bash
+./mvnw -Dspring-boot.run.profiles=local
+```
+
+Now you can login using the following credentials:
+
+- Username: `admin`
+- Password: `admin`
+
 ## Conclusion
 
 This documentation provides a detailed overview of the JWT authentication components and utilities within our Vue.js application. It covers both the primary application files related to routing and authentication, as well as the test files used to validate the functionality of these components.
