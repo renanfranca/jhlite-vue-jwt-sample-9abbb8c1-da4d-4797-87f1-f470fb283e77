@@ -3,3 +3,21 @@ logging:
     com:
       mycompany:
         myapp: DEBUG
+application:
+  cors:
+    allowed-origins:
+      - http://localhost:8100
+      - http://localhost:9000
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers:
+      - Authorization
+      - Link
+      - X-Total-Count
+      - X-jhipster-alert
+      - X-jhipster-error
+      - X-jhipster-params
+    allow-credentials: true
+    max-age: 1800
+    allowed-origin-patterns:
+      - https://*.githubpreview.dev
