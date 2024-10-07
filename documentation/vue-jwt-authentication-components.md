@@ -573,6 +573,40 @@ export const dataAxiosResponse = <T>(data: T): AxiosResponse<T> =>
   }) as AxiosResponse<T>;
 ```
 
+### 7. router.ts
+
+Location: `src/main/webapp/app/router.ts`
+
+This file sets up the main router for the application, including authentication routes.
+
+```typescript
+import { authRoutes } from '@/auth/application/AuthRouter';
+import { homeRoutes } from '@/home/application/HomeRouter';
+import { createRouter, createWebHistory } from 'vue-router';
+
+export const routes = [...homeRoutes(), ...authRoutes()];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
+```
+
+### 8. main.ts
+
+Location: `src/main/webapp/app/main.ts`
+
+This files sets up the main application by configure the Axios interceptors.
+
+```typescript
+// (ignoring previous code) ...
+setupAxiosInterceptors(axiosInstance);
+// jhipster-needle-main-ts-provider
+app.mount('#app');
+```
+
 ## JHLite Backend
 
 Start the JHLite application and apply the `spring-boot-jwt-basic-auth` module and the required dependencies.
